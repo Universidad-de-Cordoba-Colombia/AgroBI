@@ -1,3 +1,5 @@
+import streamlit as st
+import os
 import pandas as pd
 import pmdarima as pm
 from flask import Flask, request, jsonify
@@ -27,6 +29,13 @@ def prediccion_insumo():
     data = request.get_json()
     insumo = Insumo(**data)
     import boto3
+
+st.write("AWS_ACCESS_KEY:", st.secrets["AWS_ACCESS_KEY"])
+st.write("AWS_SECRET_KEY:", st.secrets["AWS_SECRET_KEY"])
+os.environ["AWS_ACCESS_KEY"] == st.secrets["AWS_ACCESS_KEY"]
+os.environ["AWS_SECRET_KEY"] == st.secrets["AWS_SECRET_KEY"]
+
+
     bucket_name = 'agrounicor'
     file2_key = 'datos/vista_insumos.csv'
     s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)

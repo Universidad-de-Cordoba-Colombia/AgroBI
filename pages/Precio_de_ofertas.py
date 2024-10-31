@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from sqlalchemy import URL,create_engine, text
 import plotly.express as px
 import pandas as pd
@@ -8,6 +9,10 @@ from sympy import Point
 st.set_page_config(layout="wide")
 
 import boto3
+st.write("AWS_ACCESS_KEY:", st.secrets["AWS_ACCESS_KEY"])
+st.write("AWS_SECRET_KEY:", st.secrets["AWS_SECRET_KEY"])
+os.environ["AWS_ACCESS_KEY"] == st.secrets["AWS_ACCESS_KEY"]
+os.environ["AWS_SECRET_KEY"] == st.secrets["AWS_SECRET_KEY"]
 
 bucket_name = 'agrounicor'
 file1_key = 'datos/VistaBI.csv'
