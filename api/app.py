@@ -30,15 +30,9 @@ def prediccion_insumo():
     insumo = Insumo(**data)
     import boto3
 
-st.write("AWS_ACCESS_KEY:", st.secrets["AWS_ACCESS_KEY"])
-st.write("AWS_SECRET_KEY:", st.secrets["AWS_SECRET_KEY"])
-os.environ["AWS_ACCESS_KEY"] == st.secrets["AWS_ACCESS_KEY"]
-os.environ["AWS_SECRET_KEY"] == st.secrets["AWS_SECRET_KEY"]
-
-
     bucket_name = 'agrounicor'
     file2_key = 'datos/vista_insumos.csv'
-    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
+    s3 = boto3.client('s3', aws_access_key_id=st.secrets["AWS_ACCESS_KEY"], aws_secret_access_key=st.secrets["AWS_SECRET_KEY"])
     response = s3.get_object(Bucket=bucket_name, Key=file2_key)
     content = response['Body'].read().decode('utf-8')
     filas = content.split('\n')
