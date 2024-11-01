@@ -9,9 +9,8 @@ import pmdarima as pm
 from sympy import Point
 st.set_page_config(layout="wide")
 
-URL = "https://agrounicor.s3.us-east-1.amazonaws.com/datos/VistaBI.csv"
-file = urllib.request.urlopen(URL)
-content = file.read().decode('utf-8')
+URL = open ('datos/Vista_BI.csv','r')
+content = URL.read()
 
 filas = content.split('\n')
 datos = []
