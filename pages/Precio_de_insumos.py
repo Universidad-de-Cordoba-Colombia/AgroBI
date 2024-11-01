@@ -11,7 +11,7 @@ st.set_page_config(layout="wide")
 
 URL = open ('datos/vista_insumos.csv','r')
 
-content = file.read()
+content = file.read().decode('Utf-8')
 filas = content.split('\n')
 datos = []
 for fila in filas:
