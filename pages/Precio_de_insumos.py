@@ -11,7 +11,7 @@ st.set_page_config(layout="wide")
 
 URL = "https://agrounicor.s3.us-east-1.amazonaws.com/datos/vista_insumos.csv"
 file = urllib.request.urlopen(URL)
-content = file
+content = file.read.decode('utf-8')
 filas = content.split('\n')
 datos = []
 for fila in filas:
