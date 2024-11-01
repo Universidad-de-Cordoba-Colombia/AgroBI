@@ -8,14 +8,10 @@ import pmdarima as pm
 from sympy import Point
 st.set_page_config(layout="wide")
 
-import boto3
+URL = "https://agrounicor.s3.us-east-1.amazonaws.com/datos/VistaBI.csv"
+file = urllib.request.urlopen(URL)
+content = file.read().decode('utf-8')
 
-bucket_name = 'agrounicor'
-file1_key = 'datos/VistaBI.csv'
-file2_key = 'datos/vista_insumos.csv'
-s3 = boto3.client('s3', aws_access_key_id=st.secrets["AWS_ACCESS_KEY"], aws_secret_access_key=st.secrets["AWS_SECRET_KEY"])
-response = s3.get_object(Bucket=bucket_name, Key=file1_key)
-content = response['Body'].read().decode('utf-8')
 filas = content.split('\n')
 datos = []
 for fila in filas:
