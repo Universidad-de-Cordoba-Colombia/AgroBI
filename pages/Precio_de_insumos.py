@@ -10,8 +10,8 @@ from sympy import Point
 st.set_page_config(layout="wide")
 
 URL = open ('datos/vista_insumos.csv','r')
-file= URL.read()
-content = file.decode('utf-8')
+
+content = file.read()
 filas = content.split('\n')
 datos = []
 for fila in filas:
