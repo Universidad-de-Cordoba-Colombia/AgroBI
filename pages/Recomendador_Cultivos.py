@@ -1,4 +1,5 @@
 import streamlit as st
+import shutil
 import numpy as np
 import pandas as pd
 import pickle
@@ -10,18 +11,20 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-AWS_ACCESS_KEY = 'AKIA4HJUEW2NTPPWSE4N'
-AWS_SECRET_KEY = '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'
-bucket_name = 'agrounicor'
-file1_key = 'datos/VistaBI.csv'
-file2_key = 'datos/vista_insumos.csv'
-s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY, aws_secret_access_key=AWS_SECRET_KEY)
+
 if not os.path.exists('datos'):
     os.makedirs('datos')
-local_file1 = 'datos/VistaBI.csv'
-s3.download_file(bucket_name, file1_key, local_file1)
-local_file2 = 'datos/vista_insumos.csv'
-s3.download_file(bucket_name, file2_key, local_file2)
+
+urlinsumos = "https://agrounicor.s3.us-east-1.amazonaws.com/datos/vista_insumos.csv"
+output_file_insumos = "datos/vista_insumos.csv"
+with urllib.request.urlopen(urlinsumos) as response1, open(output_file_insumos, 'wb2') as out_file1:
+    shutil.copyfileobj(response, out_file1)
+
+urlBI = "https://agrounicor.s3.us-east-1.amazonaws.com/datos/VISTABI.csv"
+output_file_BI = "datos/vista_BI.csv"
+with urllib.request.urlopen(urlBI) as response2, open(output_file_BI, 'wb2') as out_file2:
+    shutil.copyfileobj(response, out_file2)
+
 
 st.set_page_config(layout="wide")
 df = pd.read_csv("Crop_recommendation.csv")
