@@ -9,7 +9,7 @@ import pmdarima as pm
 from sympy import Point
 st.set_page_config(layout="wide")
 
-URL = open ('datos/Vista_BI.csv','r')
+URL = open ('datos/vista_BI.csv','r')
 content = URL.read()
 
 filas = content.split('\n')
