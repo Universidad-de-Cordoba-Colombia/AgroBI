@@ -11,7 +11,7 @@ st.set_page_config(layout="wide")
 
 URL = open ('datos/vista_insumos.csv','r')
 file= URL.read()
-content = file.read().decode('utf-8')
+content = file.decode('utf-8')
 filas = content.split('\n')
 datos = []
 for fila in filas:
@@ -21,7 +21,7 @@ encabezados = ['id','departamento_nombre','departamento_id','municipio_nombre','
 df.columns = encabezados
 df['fechapublicacion'] = pd.to_datetime(df['fechapublicacion'])
 df['valor'] = df['valor'].astype(float)
-
+URL.close()
 
 with st.sidebar:
     dep = st.selectbox('Seleccionar departamento',df['departamento_nombre'].unique())
