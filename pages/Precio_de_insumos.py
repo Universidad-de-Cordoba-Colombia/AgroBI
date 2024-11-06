@@ -129,17 +129,12 @@ else:
 
 
     col1, col2, col3 = st.columns(3)
-    with col1:
-        st.write("")
-    with col2:
-        with st.container():
-            col1, col2 = st.columns(2)
-            col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
-            col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
-            col11, col12 = st.columns(2)
-            col11.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
-    with col3:
-        st.write("")
+col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
+col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
+col3.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
+   
+
+
 
 
 #st.subheader('Soporte de la predicción')
