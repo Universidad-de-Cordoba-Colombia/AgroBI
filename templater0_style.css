@@ -1,0 +1,41 @@
+/* Main app styling*/
+.stApp{  
+    background-color: #FFFFFF;  
+    color:#000000;  
+    padding:20px;
+}  
+
+.stApp > header {  
+    background-color: #FFFFFF;
+    color:#f8f8f8;  
+    padding:2rem;  
+}  
+
+.stTextInput, .stSelectbox{  
+    margin-bottom: 20px;  /*Add spacing between these elements*/
+}  
+
+/* Sidebar styling */  
+[data-testid="stSidebar"]{  
+    background-color: #FFFFFF;
+    color: #ffffff;  
+}  
+
+[data-testid="stSidebarNav"] {  
+    background-image: url(https://www.miagroalimentaria.com/assets/dataicon-24d5c7cb.jpg);  
+    background-repeat: no-repeat;  
+    padding-top: 100px;  
+    background-position: 50px 50px;  
+    background-size: 100px;  
+}  
+  
+[data-testid="stSidebarNav"]::before {  
+    content: "";  
+    margin-left: 60px;  
+    margin-top: 20px;  
+    font-size: 20px;  
+    position: relative;  
+    top: -300px;  
+    font-weight: bold;  
+    text-align: center;  
+} 
