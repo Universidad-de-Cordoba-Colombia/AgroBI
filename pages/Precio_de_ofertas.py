@@ -47,13 +47,13 @@ hoy = date.today()
 unano -= timedelta(days=365)
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    fi = st.date_input("Fecha Inicio", unano)
+    fi = st.date_input("Fecha Inicial", unano)
 with col2:
     ff = st.date_input("Fecha Final", hoy)
 with col3:
     option = st.selectbox('Frecuencia',('Mensual','Quincenal','Semanal'))
 with col4:
-    number = st.number_input('Predecir %s '%option, 1, 10, 1)
+    number = st.number_input('Predeccion %s ' %option, 1, 10, 1)
 
 if option == 'Mensual':
     frecuencia = 'M'
