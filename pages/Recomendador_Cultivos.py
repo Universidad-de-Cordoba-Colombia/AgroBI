@@ -10,6 +10,8 @@ import boto3
 import os
 import warnings
 warnings.filterwarnings('ignore')
+
+st.set_page_config(layout="wide")
 template0_page_style()
 df = pd.read_csv("Crop_recommendation.csv")
 with st.sidebar:
