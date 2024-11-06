@@ -57,7 +57,7 @@ with col2:
 with col3:
     option = st.selectbox('Frecuencia',('Mensual','Quincenal','Semanal'))
 with col4:
-    number = st.number_input('Predecir %s '%option, 1, 10, 1)
+    number = st.number_input('Predecir %s ' %option, 1, 10, 1)
 
 if option == 'Mensual':
     frecuencia = 'M'
