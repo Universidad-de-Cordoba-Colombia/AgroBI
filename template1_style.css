@@ -22,11 +22,11 @@
 }  
 
 [data-testid="stSidebarNav"] {  
-    background-image: url(https://w7.pngwing.com/pngs/987/754/png-transparent-computer-monitor-art-dashboard-business-intelligence-management-information-computer-icons-dashboard-miscellaneous-text-rectangle-thumbnail.png);  
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZEV6NcjYq7LHFY-QCkxc1XwBCCG3JZwK4XVG642m1SHAf8JSOa7r5nTUjtKxZs19-ruE&usqp=CAU);  
     background-repeat: no-repeat;  
     padding-top: 100px;  
     background-position: 20px -10px;  
-    background-size: 100px;  
+    background-size: 300px;  
 }  
   
 [data-testid="stSidebarNav"]::before {  
