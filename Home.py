@@ -1,5 +1,5 @@
 import streamlit as st
-from styling import template0_page_style
+from app.styling import template0_page_style
 import urllib.request
 import shutil
 import os
