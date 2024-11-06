@@ -12,7 +12,7 @@
 }  
 
 .stTextInput, .stSelectbox{  
-    margin-bottom: 20px;  /*Add spacing between these elements*/
+    margin-bottom: 15px;  /*Add spacing between these elements*/
 }  
 
 /* Sidebar styling */  
@@ -32,7 +32,7 @@
 [data-testid="stSidebarNav"]::before {  
     content: "";  
     margin-left: 0px;  
-    margin-top: 0px;  
+    margin-top: 10px;  
     font-size: 20px;  
     position: relative;  
     font-weight: bold;  
