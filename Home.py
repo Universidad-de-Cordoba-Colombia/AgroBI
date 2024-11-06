@@ -17,7 +17,7 @@ with urllib.request.urlopen(urlBI) as response2, open(output_file_BI, 'wb') as o
     shutil.copyfileobj(response2, out_file2)
 
 st.set_page_config(
-    page_title="Hello",
+    page_title="Plataforma BI",
     page_icon="👋",
 initial_sidebar_state="collapsed"
 )
