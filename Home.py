@@ -4,6 +4,10 @@ import urllib.request
 import shutil
 import os
 
+if __name__ == "__main__":  
+    template0_page_style()
+    main()
+
 if not os.path.exists('datos'):
     os.makedirs('datos')
 
@@ -27,9 +31,7 @@ def main():
   
 
 
-if __name__ == "__main__":  
-    template0_page_style()
-    main()  
+  
 
 
 

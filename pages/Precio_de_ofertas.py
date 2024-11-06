@@ -1,4 +1,5 @@
 import streamlit as st
+from app.styling import template0_page_style
 import urllib.request
 import os
 from sqlalchemy import URL,create_engine, text
@@ -8,6 +9,7 @@ from datetime import date,timedelta
 import pmdarima as pm
 from sympy import Point
 st.set_page_config(layout="wide")
+template0_page_style()
 
 URL = open ('datos/vista_BI.csv','r')
 content = URL.read()
