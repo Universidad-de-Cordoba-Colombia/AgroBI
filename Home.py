@@ -5,7 +5,7 @@ import shutil
 import os
 
 def main():  
-    st.title('👋 Inteligencia de negocios 👋')  
+    st.title('Inteligencia de negocios 👋')  
     st.write('-'*50)
     st.markdown("<p style='text-align: center; color: black;'>Plataforma para la toma de decisiones, aquí encontraras herramientas con tendencias de precios para productos e insumos del campo.</p>", unsafe_allow_html=True)  
     st.write('-'*50)

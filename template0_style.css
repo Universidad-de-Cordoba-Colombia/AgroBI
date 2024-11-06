@@ -39,4 +39,8 @@
     text-align: center;  
 } 
 
+.stButton button:hover {  
+    background-color: #005bb5;  
+    color: yellow
+}  
 
