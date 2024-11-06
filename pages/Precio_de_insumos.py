@@ -51,7 +51,7 @@ with col1:
 with col2:
     ff = st.date_input("Fecha Final", hoy)
 with col3:
-    option = st.selectbox('Frecuencia de los datos',('Mensual','Quincenal','Semanal'))
+    option = st.selectbox('Frecuencia',('Mensual','Quincenal','Semanal'))
 with col4:
     number = st.number_input('Cantidad %s a predecir'%option, 1, 10, 1)
 
