@@ -18,7 +18,7 @@ with urllib.request.urlopen(urlBI) as response2, open(output_file_BI, 'wb') as o
     shutil.copyfileobj(response2, out_file2)
 
 def main():  
-    st.title('Bienvenidos')  
+    st.title('Bienvenidos plataforma de inteligencia de negocios')  
     st.write('-'*50)
     st.markdown("<p style='text-align: center; color: black;'>Plataforma para la toma de decisiones, aqui encontras herramientas con tendencias de precios de ofertas e insumos agricolas.</p>", unsafe_allow_html=True)  
     st.write('-'*50)
