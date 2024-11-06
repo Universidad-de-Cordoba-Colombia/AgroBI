@@ -10,6 +10,7 @@ import pmdarima as pm
 from sympy import Point
 
 template0_page_style()
+st.set_page_config(layout="wide")
 
 
 
