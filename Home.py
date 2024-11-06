@@ -28,7 +28,7 @@ def main():
 
 
 if __name__ == "__main__":  
-    template1_page_style()
+    template0_page_style()
     main()  
 
 
