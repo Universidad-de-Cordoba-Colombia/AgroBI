@@ -1,6 +1,6 @@
 /* Main app styling*/
 .stApp{  
-    background-color: #d4d3d3;  
+    background-color: #FFFFFF;  
     color:#000000;  
     padding:20px;
 }  
@@ -26,7 +26,7 @@
     background-repeat: no-repeat;  
     padding-top: 100px;  
     background-position: 20px -10px;  
-    background-size: 300px;  
+    background-size: 100px;  
 }  
   
 [data-testid="stSidebarNav"]::before {  
