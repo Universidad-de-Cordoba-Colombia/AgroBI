@@ -18,24 +18,12 @@ with urllib.request.urlopen(urlBI) as response2, open(output_file_BI, 'wb') as o
     shutil.copyfileobj(response2, out_file2)
 
 def main():  
-    st.title('Welcome to Streamlit_UI_Template')  
+    st.title('Bienvenidos')  
     st.write('-'*50)
-    st.markdown("<p style='text-align: center; color: black;'>This is a demo page created with Streamlit. \
-                It uses a custom CSS file to modify the UI.</p>", unsafe_allow_html=True)  
+    st.markdown("<p style='text-align: center; color: black;'>Plataforma para la toma de decisiones, aqui encontras herramientas con tendencias de precios de ofertas e insumos agricolas.</p>", unsafe_allow_html=True)  
     st.write('-'*50)
   
-    user_name = st.text_input('Please enter your name')  
-  
-    # Add a selectbox to the sidebar.  
-    option = st.selectbox(  
-        'Which greeting do you prefer?',  
-        ['Hello', 'Hi', 'Hey'])  
-  
-    if st.button('Greet Me'):  
-        if user_name:  
-            st.success(f'{option}, {user_name}! Nice to meet you.')  
-        else:  
-            st.success(f'{option} there! Nice to meet you.')  
+   
   
 
 
