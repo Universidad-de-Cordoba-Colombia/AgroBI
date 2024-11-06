@@ -9,7 +9,7 @@ from datetime import date,timedelta
 import pmdarima as pm
 from sympy import Point
 
-st.set_page_config(layout="wide")
+
 template0_page_style()
 
 
