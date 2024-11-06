@@ -1,4 +1,5 @@
 import streamlit as st
+from app.styling import template0_page_style
 import numpy as np
 import pandas as pd
 import pickle
@@ -9,8 +10,7 @@ import boto3
 import os
 import warnings
 warnings.filterwarnings('ignore')
-
-st.set_page_config(layout="wide")
+template0_page_style()
 df = pd.read_csv("Crop_recommendation.csv")
 with st.sidebar:
   col1, col2, col3 = st.columns(3)
