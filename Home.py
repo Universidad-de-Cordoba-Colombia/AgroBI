@@ -22,7 +22,7 @@ st.set_page_config(
 initial_sidebar_state="collapsed"
 )
 
-st.write("# Bienvenidos a AgroBI! 👋")
+st.write("# Inteligencia de negocios! 👋")
 
 
 
