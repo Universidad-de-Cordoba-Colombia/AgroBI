@@ -18,10 +18,10 @@ template1_page_style()
 
 
 
-
-
-URL = open ('datos/vista_insumos.csv','r')
-content = URL.read()
+file_name='datos/vista_insumos.csv'
+Url = open (file_name,'r',encoding="utf8")
+content = Url.read()
+Url.close()
 filas = content.split('\n')
 datos = []
 for fila in filas:
@@ -30,9 +30,7 @@ df = pd.DataFrame(datos[1:])
 encabezados = ['id','departamento_nombre','departamento_id','municipio_nombre','municipio_id','producto_id','producto_nombre','valor','fechapublicacion','presentacion']
 df.columns = encabezados
 df['fechapublicacion'] = pd.to_datetime(df['fechapublicacion'])
-df['valor'] = df['valor'].astype(float)
-URL.close()
-
+df['valor'] = df['valor'].astype(float) 
 with st.sidebar:
     dep = st.selectbox('Seleccionar departamento',df['departamento_nombre'].unique())
     filtro_departamento = 'departamento_nombre=="%s"'% dep
@@ -46,27 +44,26 @@ with st.sidebar:
     filtro_pres = 'presentacion=="%s"'% pres
     filtro_de_mu_pr = filtro_de_mu +' and '+filtro_producto+' and '+filtro_pres
     #st.write('ok')
-unano = date.today()
-hoy = date.today()
-unano -= timedelta(days=365)
+    unano = date.today()
+    hoy = date.today()
+    unano -= timedelta(days=365)
 col1, col2, col3, col4 = st.columns(4)
-with col1:
-    fi = st.date_input("Fecha Inicial", unano)
-with col2:
-    ff = st.date_input("Fecha Final", hoy)
-with col3:
-    option = st.selectbox('Frecuencia',('Mensual','Quincenal','Semanal'))
-with col4:
-    number = st.number_input('Predeccion %s '%option, 1, 10, 1)
-
+with col1:  
+     fi = st.date_input("Fecha Inicial", unano)
+with col2:  
+     ff = st.date_input("Fecha Final", hoy)
+with col3:  
+     option = st.selectbox('Frecuencia',('Mensual','Quincenal','Semanal'))
+with col4:  
+     number = st.number_input('Predeccion %s '%option, 1, 10, 1)
 if option == 'Mensual':
-    frecuencia = 'M'
+        frecuencia = 'M'
 elif option == 'Quincenal':
-    frecuencia = '15D'
+        frecuencia = '15D'
 else:
-    frecuencia = 'W'
-df = df.query(filtro_de_mu_pr)
-df = df.loc[df["fechapublicacion"].between(str(fi),str(ff))]
+    frecuencia = 'W' 
+    df = df.query(filtro_de_mu_pr)    
+    df = df.loc[df["fechapublicacion"].between(str(fi),str(ff))]
 
 
 if len(df)==0:
@@ -75,14 +72,10 @@ else:
     df.set_index('fechapublicacion', inplace=True)
     df = df['valor']
     dff = df.copy()
-    #df = df.asfreq(frecuencia, method='ffill')
     df = df.resample(frecuencia).mean().fillna(0)
-
-
     model = pm.auto_arima(df)
     pred = model.predict(n_periods=number)
     tpre = pd.DataFrame(pred)
-
 
     tpre.rename(columns={0:'Predicción'}, inplace=True)
     minimos_mensuales = dff.resample(frecuencia).min()
@@ -132,16 +125,13 @@ else:
     #st.dataframe(tpre, use_container_width=True)
 
 
-    col1, col2, col3 = st.columns(3)
+col1, col2, col3 = st.columns(3)
 col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
 col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
 col3.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
-   
 
 
 
 
-#st.subheader('Soporte de la predicción')
-#st.write(model.summary())
-#st.subheader('Datos historicos y predicción')
-#st.dataframe(total, use_container_width=True)
+
+

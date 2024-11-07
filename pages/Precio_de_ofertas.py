@@ -14,7 +14,7 @@ st.set_page_config(layout="wide")
 template0_page_style()
 template1_page_style()
 
-URL = open ('datos/vista_BI.csv','r')
+URL = open ('datos/vista_BI.csv','r',encoding="utf8")
 content = URL.read()
 
 filas = content.split('\n')
