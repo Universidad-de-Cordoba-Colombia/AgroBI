@@ -13,73 +13,65 @@ from sympy import Point
 st.set_page_config(layout="wide")
 template0_page_style()
 template1_page_style()
+file_name='datos/vista_BI.csv'
+def main_data():
+    URL = open ('datos/vista_BI.csv','r',encoding="utf8")
+    content = URL.read()
+    filas = content.split('\n')
+    datos = []
+    for fila in filas:
+        datos.append(fila.split(','))
+    df = pd.DataFrame(datos[1:])
+    encabezados = ['dpto','mpio','subproducto','presentacion','precio_con_descuento','fecha_creacion']
+    df.columns = encabezados
+    df.dropna(inplace=True)
+    df['fecha_creacion'] = pd.to_datetime(df['fecha_creacion'])
+    df['precio_con_descuento'] = df['precio_con_descuento'].astype(float)
+    with st.sidebar:
+        dep = st.selectbox('Seleccionar departamento',df['dpto'].unique())
+        filtro_departamento = 'dpto=="%s"'% dep
+        muni = st.selectbox('Seleccionar municipio',df.query(filtro_departamento)['mpio'].unique())
+        filtro_municipio = 'mpio=="%s"'% muni
+        filtro_de_mu = filtro_departamento+' and '+filtro_municipio
+        prod = st.selectbox('Seleccionar producto',df.query(filtro_de_mu)['subproducto'].unique())
+        filtro_producto = 'subproducto=="%s"'% prod
+        filtro_de_mu_pr = filtro_de_mu +' and '+filtro_producto
+        pres = st.selectbox('Seleccionar presentación',df.query(filtro_producto)['presentacion'].unique())
+        filtro_de_mu_pr = filtro_de_mu_pr+' and presentacion=="%s"'%pres
+    unano = date.today()
+    hoy = date.today()
+    unano -= timedelta(days=365)
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        fi = st.date_input("Fecha Inicial", unano)
+    with col2:
+        ff = st.date_input("Fecha Final", hoy)
+    with col3:
+        option = st.selectbox('Frecuencia',('Mensual','Quincenal','Semanal'))
+    with col4:
+        number = st.number_input('Predeccion %s ' %option, 1, 10, 1)
 
-URL = open ('datos/vista_BI.csv','r',encoding="utf8")
-content = URL.read()
-
-filas = content.split('\n')
-datos = []
-for fila in filas:
-    datos.append(fila.split(','))
-df = pd.DataFrame(datos[1:])
-#df.drop([6], axis=1, inplace=True)
-encabezados = ['dpto','mpio','subproducto','presentacion','precio_con_descuento','fecha_creacion']
-df.columns = encabezados
-df.dropna(inplace=True)
-#st.dataframe(df)
-#df = df[df['fecha_creacion'] != '12500']
-#st.dataframe(df)
-df['fecha_creacion'] = pd.to_datetime(df['fecha_creacion'])
-df['precio_con_descuento'] = df['precio_con_descuento'].astype(float)
-with st.sidebar:
-    dep = st.selectbox('Seleccionar departamento',df['dpto'].unique())
-    filtro_departamento = 'dpto=="%s"'% dep
-    muni = st.selectbox('Seleccionar municipio',df.query(filtro_departamento)['mpio'].unique())
-    filtro_municipio = 'mpio=="%s"'% muni
-    filtro_de_mu = filtro_departamento+' and '+filtro_municipio
-    prod = st.selectbox('Seleccionar producto',df.query(filtro_de_mu)['subproducto'].unique())
-    filtro_producto = 'subproducto=="%s"'% prod
-    filtro_de_mu_pr = filtro_de_mu +' and '+filtro_producto
-    pres = st.selectbox('Seleccionar presentación',df.query(filtro_producto)['presentacion'].unique())
-    filtro_de_mu_pr = filtro_de_mu_pr+' and presentacion=="%s"'%pres
-unano = date.today()
-hoy = date.today()
-unano -= timedelta(days=365)
-col1, col2, col3, col4 = st.columns(4)
-with col1:
-    fi = st.date_input("Fecha Inicial", unano)
-with col2:
-    ff = st.date_input("Fecha Final", hoy)
-with col3:
-    option = st.selectbox('Frecuencia',('Mensual','Quincenal','Semanal'))
-with col4:
-    number = st.number_input('Predeccion %s ' %option, 1, 10, 1)
-
-if option == 'Mensual':
-    frecuencia = 'M'
-elif option == 'Quincenal':
-    frecuencia = '15D'
-else:
-    frecuencia = 'W'
-df = df.query(filtro_de_mu_pr)
-df['fecha_creacion'] = pd.to_datetime(df['fecha_creacion'])
-df = df.loc[df["fecha_creacion"].between(str(fi),str(ff))]
-df = df.sort_values(by='fecha_creacion')
-
-
-if len(df)==0:
-    st.subheader('No hay datos para mostrar')
-else:
-    df.set_index('fecha_creacion', inplace=True)
-    df = df['precio_con_descuento']
-
-    dff = df.copy()
-    #df = df.asfreq(frecuencia, method='ffill')
-    df = df.resample(frecuencia).mean().fillna(0)
-
-    model = pm.auto_arima(df)
-    pred = model.predict(n_periods=number)
-    tpre = pd.DataFrame(pred)
+    if option == 'Mensual':
+        frecuencia = 'M'
+    elif option == 'Quincenal':
+        frecuencia = '15D'
+    else:
+        frecuencia = 'W'
+    df = df.query(filtro_de_mu_pr)
+    df['fecha_creacion'] = pd.to_datetime(df['fecha_creacion'])
+    df = df.loc[df["fecha_creacion"].between(str(fi),str(ff))]
+    df = df.sort_values(by='fecha_creacion')
+    
+    if len(df)==0:
+        st.subheader('No hay datos para mostrar')
+    else:
+        df.set_index('fecha_creacion', inplace=True)
+        df = df['precio_con_descuento']
+        dff = df.copy()   
+        df = df.resample(frecuencia).mean().fillna(0)
+        model = pm.auto_arima(df)
+        pred = model.predict(n_periods=number)
+        tpre = pd.DataFrame(pred)
 
     tpre.rename(columns={0:'Predicción'}, inplace=True)
     minimos_mensuales = dff.resample(frecuencia).min()
@@ -128,14 +120,12 @@ else:
     tpre = tpre.T
     #st.dataframe(tpre, use_container_width=True)
     col1, col2, col3 = st.columns(3)
-col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
-col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
-col3.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
+    col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
+    col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
+    col3.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
+ 
 
-   
-
-
-#st.subheader('Soporte de la predicción')
-#st.write(model.summary())
-#st.subheader('Datos historicos y predicción')
-#st.dataframe(total, use_container_width=True)
+if(os.path.isfile(file_name)):
+    main_data()
+else:
+    st.subheader('No fue posible acceder al conjunto de datos')
