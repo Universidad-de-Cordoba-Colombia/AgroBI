@@ -65,8 +65,8 @@ def main_data():
         frecuencia = '15D'
     else:
         frecuencia = 'W' 
-        df = df.query(filtro_de_mu_pr)    
-        df = df.loc[df["fechapublicacion"].between(str(fi),str(ff))]
+    df = df.query(filtro_de_mu_pr)    
+    df = df.loc[df["fechapublicacion"].between(str(fi),str(ff))]
     if len(df)==0:
         st.subheader('No hay datos para mostrar')
     else:
@@ -77,15 +77,14 @@ def main_data():
         model = pm.auto_arima(df)
         pred = model.predict(n_periods=number)
         tpre = pd.DataFrame(pred)
+        tpre.rename(columns={0:'Predicción'}, inplace=True)
+        minimos_mensuales = dff.resample(frecuencia).min()
+        max_mensuales = dff.resample(frecuencia).max()
+        tpre['Minimo'] = df.min()#minimos_mensuales.tail(1).values[0]
+        tpre['Maximo'] = df.max()#max_mensuales.tail(1).values[0]
 
-    tpre.rename(columns={0:'Predicción'}, inplace=True)
-    minimos_mensuales = dff.resample(frecuencia).min()
-    max_mensuales = dff.resample(frecuencia).max()
-    tpre['Minimo'] = df.min()#minimos_mensuales.tail(1).values[0]
-    tpre['Maximo'] = df.max()#max_mensuales.tail(1).values[0]
-
-    tpre = tpre.transpose()
-    lista = []
+        tpre = tpre.transpose()
+        lista = []
     for i in range(len(pred)+1):
         if i == 0:
             lista.append([df.tail(1).index.values[0],df.tail(1).values[0]])
