@@ -85,48 +85,48 @@ def main_data():
 
         tpre = tpre.transpose()
         lista = []
-    for i in range(len(pred)+1):
-        if i == 0:
-            lista.append([df.tail(1).index.values[0],df.tail(1).values[0]])
-        else:
-            lista.append([pred.index.values[i-1],pred[i-1]])
-    pred = pd.DataFrame(lista)
-    pred.set_index(0, inplace=True)
-    df = pd.DataFrame(df)
-    df['grupo']='Historico'
-    pred['grupo']='Prediccion'
-    pred.rename(columns={1:'valor'}, inplace=True)
-    total = pd.concat([df,pred], axis=0)
-    total2 = total.copy()
-    total2.rename(columns={'valor':'Precio'}, inplace=True)
-    total2 = total2.rename_axis('Fecha', axis='index')
-    #st.dataframe(total2, use_container_width=True)
-    import plotly.graph_objects as go
-    fig = go.Figure()
-    st.header(prod+' en '+pres)
-    fig = px.line(total2,
-                x=total2.index,
-                y='Precio',
-                color='grupo',
-                symbol='grupo',
-                title='Gráfica con la prediccion %s de precios de insumos' % option,
-                color_discrete_map={'Historico': 'green', 'Prediccion': 'blue'}).update_traces(mode='markers+lines', line={'width':4})
+        for i in range(len(pred)+1):
+            if i == 0:
+                lista.append([df.tail(1).index.values[0],df.tail(1).values[0]])
+            else:
+                lista.append([pred.index.values[i-1],pred[i-1]])
+        pred = pd.DataFrame(lista)
+        pred.set_index(0, inplace=True)
+        df = pd.DataFrame(df)
+        df['grupo']='Historico'
+        pred['grupo']='Prediccion'
+        pred.rename(columns={1:'valor'}, inplace=True)
+        total = pd.concat([df,pred], axis=0)
+        total2 = total.copy()
+        total2.rename(columns={'valor':'Precio'}, inplace=True)
+        total2 = total2.rename_axis('Fecha', axis='index')
+        #st.dataframe(total2, use_container_width=True)
+        import plotly.graph_objects as go
+        fig = go.Figure()
+        st.header(prod+' en '+pres)
+        fig = px.line(total2,
+                    x=total2.index,
+                    y='Precio',
+                    color='grupo',
+                    symbol='grupo',
+                    title='Gráfica con la prediccion %s de precios de insumos' % option,
+                    color_discrete_map={'Historico': 'green', 'Prediccion': 'blue'}).update_traces(mode='markers+lines', line={'width':4})
 
 
 
-    fig.add_trace(go.Scatter(x=max_mensuales.index, y=max_mensuales,mode='lines',name='Maximo')).update_traces(mode='markers+lines', line={'width':2})
-    fig.add_trace(go.Scatter(x=minimos_mensuales.index, y=minimos_mensuales,mode='lines',name='Minimo')).update_traces(mode='markers+lines', line={'width':2})
+        fig.add_trace(go.Scatter(x=max_mensuales.index, y=max_mensuales,mode='lines',name='Maximo')).update_traces(mode='markers+lines', line={'width':2})
+        fig.add_trace(go.Scatter(x=minimos_mensuales.index, y=minimos_mensuales,mode='lines',name='Minimo')).update_traces(mode='markers+lines', line={'width':2})
 
 
-
-    st.plotly_chart(fig, use_container_width=True)
-    st.subheader('Información general')
-    tpre = tpre.T
-    #st.dataframe(tpre, use_container_width=True)
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
-    col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
-    col3.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
+        if len(df)!=0:
+            st.plotly_chart(fig, use_container_width=True)
+            st.subheader('Información general')
+            tpre = tpre.T
+            #st.dataframe(tpre, use_container_width=True)
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
+            col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
+            col3.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
 
 
     

@@ -72,58 +72,57 @@ def main_data():
         model = pm.auto_arima(df)
         pred = model.predict(n_periods=number)
         tpre = pd.DataFrame(pred)
+        tpre.rename(columns={0:'Predicción'}, inplace=True)
+        minimos_mensuales = dff.resample(frecuencia).min()
+        max_mensuales = dff.resample(frecuencia).max()
+        tpre['Minimo'] = minimos_mensuales.tail(1).values[0]
+        tpre['Maximo'] = max_mensuales.tail(1).values[0]
 
-    tpre.rename(columns={0:'Predicción'}, inplace=True)
-    minimos_mensuales = dff.resample(frecuencia).min()
-    max_mensuales = dff.resample(frecuencia).max()
-    tpre['Minimo'] = minimos_mensuales.tail(1).values[0]
-    tpre['Maximo'] = max_mensuales.tail(1).values[0]
-
-    tpre = tpre.transpose()
-    lista = []
-    for i in range(len(pred)+1):
-        if i == 0:
-            lista.append([df.tail(1).index.values[0],df.tail(1).values[0]])
-        else:
-            lista.append([pred.index.values[i-1],pred[i-1]])
-    pred = pd.DataFrame(lista)
-    pred.set_index(0, inplace=True)
-    df = pd.DataFrame(df)
-    df['grupo']='Historico'
-    pred['grupo']='Prediccion'
-    pred.rename(columns={1:'valor'}, inplace=True)
-    total = pd.concat([df,pred], axis=0)
-    total2 = total.copy()
-    total2.rename(columns={'valor':'Precio'}, inplace=True)
-    total2 = total2.rename_axis('Fecha', axis='index')
-    import plotly.graph_objects as go
-    fig = go.Figure()
-    st.header(prod+' en '+pres)
-    fig = px.line(total2,
-                x=total2.index,
-                y='Precio',
-                color='grupo',
-                symbol='grupo',
-                title='Gráfica con la prediccion %s de precios de ofertas' % option, 
-                color_discrete_map={'Prediccion': 'blue'}).update_traces(mode='markers+lines', line={'width':4})
-
-
-    fig.add_trace(go.Scatter(x=df.index, y=df.precio_con_descuento,mode='lines',name='Historico')).update_traces(mode='markers+lines', line={'width':2})
-    fig.add_trace(go.Scatter(x=max_mensuales.index, y=max_mensuales,mode='lines',name='Maximo')).update_traces(mode='markers+lines', line={'width':2})
-    fig.add_trace(go.Scatter(x=minimos_mensuales.index, y=minimos_mensuales,mode='lines',name='Minimo')).update_traces(mode='markers+lines', line={'width':2})
+        tpre = tpre.transpose()
+        lista = []
+        for i in range(len(pred)+1):
+            if i == 0:
+                lista.append([df.tail(1).index.values[0],df.tail(1).values[0]])
+            else:
+                lista.append([pred.index.values[i-1],pred[i-1]])
+        pred = pd.DataFrame(lista)
+        pred.set_index(0, inplace=True)
+        df = pd.DataFrame(df)
+        df['grupo']='Historico'
+        pred['grupo']='Prediccion'
+        pred.rename(columns={1:'valor'}, inplace=True)
+        total = pd.concat([df,pred], axis=0)
+        total2 = total.copy()
+        total2.rename(columns={'valor':'Precio'}, inplace=True)
+        total2 = total2.rename_axis('Fecha', axis='index')
+        import plotly.graph_objects as go
+        fig = go.Figure()
+        st.header(prod+' en '+pres)
+        fig = px.line(total2,
+                    x=total2.index,
+                    y='Precio',
+                    color='grupo',
+                    symbol='grupo',
+                    title='Gráfica con la prediccion %s de precios de ofertas' % option, 
+                    color_discrete_map={'Prediccion': 'blue'}).update_traces(mode='markers+lines', line={'width':4})
 
 
+        fig.add_trace(go.Scatter(x=df.index, y=df.precio_con_descuento,mode='lines',name='Historico')).update_traces(mode='markers+lines', line={'width':2})
+        fig.add_trace(go.Scatter(x=max_mensuales.index, y=max_mensuales,mode='lines',name='Maximo')).update_traces(mode='markers+lines', line={'width':2})
+        fig.add_trace(go.Scatter(x=minimos_mensuales.index, y=minimos_mensuales,mode='lines',name='Minimo')).update_traces(mode='markers+lines', line={'width':2})
 
-    st.plotly_chart(fig, use_container_width=True)
-    st.subheader('Información general')
-    #st.dataframe(tpre, use_container_width=True)
-    tpre = tpre.T
-    #st.dataframe(tpre, use_container_width=True)
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
-    col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
-    col3.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
- 
+
+        if len(df)!=0:
+            st.plotly_chart(fig, use_container_width=True)
+            st.subheader('Información general')
+            #st.dataframe(tpre, use_container_width=True)
+            tpre = tpre.T
+            #st.dataframe(tpre, use_container_width=True)
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Precio Predición", '$'+str('{:,}'.format(round(tpre['Predicción'].values[0],1))), "")
+            col2.metric("Precio Maximo", '$'+str('{:,}'.format(round(tpre['Maximo'].values[0]))), "")
+            col3.metric("Precio Minimo", '$'+str('{:,}'.format(round(tpre['Minimo'].values[0]))), "")
+    
 
 if(os.path.isfile(file_name)):
     main_data()
