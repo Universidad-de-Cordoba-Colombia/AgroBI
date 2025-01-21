@@ -47,7 +47,7 @@ def main_data():
     with col2:
         ff = st.date_input("Fecha Final", hoy)
     with col3:
-        option = st.selectbox('Frecuencia',('Mensual','Quincenal','Semanal'))
+        option = st.selectbox('Frecuencia',('Semanal','Mensual','Quincenal'))
     with col4:
         number = st.number_input('Predeccion %s ' %option, 1, 10, 1)
 
@@ -63,7 +63,7 @@ def main_data():
     df = df.sort_values(by='fecha_creacion')
     
     if len(df)==0:
-        st.subheader('No hay datos para mostrar')
+       st.subheader('👋 No hay datos para mostrar 👋 ',divider="green")
     else:
         df.set_index('fecha_creacion', inplace=True)
         df = df['precio_con_descuento']

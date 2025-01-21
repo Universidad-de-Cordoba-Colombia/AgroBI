@@ -68,7 +68,7 @@ def main_data():
     df = df.query(filtro_de_mu_pr)    
     df = df.loc[df["fechapublicacion"].between(str(fi),str(ff))]
     if len(df)==0:
-        st.subheader('No hay datos para mostrar')
+        st.subheader('👋 No hay datos para mostrar 👋 ',divider="green")
     else:
         df.set_index('fechapublicacion', inplace=True)
         df = df['valor']
